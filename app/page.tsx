@@ -110,7 +110,7 @@ export default function Home() {
       <div className="flex justify-between">
         <div className="flex flex-col space-y-4 w-1/2">
           <h1 className="font-bold text-3xl font-serif">About Us</h1>
-          <p>At Illeemi, we believe that home life should be easy and stress-free. That's why we've created a platform that streamlines all aspects of home management. 
+          <p>At Ileemi, we believe that home life should be easy and stress-free. That&apos;s why we've created a platform that streamlines all aspects of home management. 
             Our team is dedicated to providing innovative solutions to make your easier.</p>
         </div>
         <div className="flex justify-center items-center">
@@ -252,7 +252,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col justify-normal space-y-4 text-center">
             <h1 className="font-bold font-serif text-4xl mt-16">What our happy client say</h1>
-            <p className="text-sm">File storage made easy – including powerful features you won’t find anywhere else. Whether you’re.</p>
+            <p className="text-sm">File storage made easy – including powerful features you won&apos;t find anywhere else. Whether you&apos;re.</p>
           </div>
           <div className="flex justify-center items-center pt-24 w-1/2">
             <Image src={"/file_Icon.png"} alt="file_Icon" width={100} height={100} />
@@ -268,7 +268,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col justify-center space-y-12 px-20 w-full">
             <h1 className="font-bold text-lg font-serif">furni.shop</h1>
-            <p className="w-1/2">File storage made easy – including powerful features you won’t find anywhere else. Whether you’re.</p>
+            <p className="w-1/2">File storage made easy – including powerful features you won&apos;t find anywhere else. Whether you&apos;re.</p>
             <div>
               <h2 className="font-semibold">Larry Diamond</h2>
               <p className="text-xs">Chief Executive Officer</p>
