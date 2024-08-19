@@ -10,3 +10,11 @@ export interface SidebarItems {
 
     extras?: ReactNode;
 }
+
+export interface DashboardCardItems {
+    links: Array<{
+        title: string;
+        amount: string;
+        icon: LucideIcon;
+    }>
+}

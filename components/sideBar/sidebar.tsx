@@ -11,8 +11,8 @@ const sidebarItems: SidebarItems = {
     links: [
         { label: 'Dashboard', href: '/page/dashboard', icon: LayoutDashboard},
         { label: 'Billing', href: '/page/billing', icon: CreditCard},
-        { label: 'Help', href: '/page/help', icon: Contact},
         { label: 'Profile', href: '/page/profile', icon: User},
+        { label: 'Help', href: '/page/help', icon: Contact},
     ], 
     extras: (
         <div className='flex flex-col space-y-4'>
@@ -20,7 +20,9 @@ const sidebarItems: SidebarItems = {
             <SideBarButton icon={MoreHorizontal} className='w-full text-[#A0AEC0]'>
                 More
             </SideBarButton>
-            <SideBarButton className='w-full justify-center' variant='default'>Help</SideBarButton>
+            <SideBarButton className='w-full h-[150px] justify-center' variant='default'>
+                Help
+            </SideBarButton>
         </div>
     )
 }

@@ -1,26 +1,30 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, Facebook, FacebookIcon, Instagram, Linkedin, MoveDown, MoveLeft, MoveRight, ShoppingCart, Twitter } from "lucide-react";
-import { Poppins } from "next/font/google";
+import { ChevronDown, ChevronUp, Facebook, Instagram, Linkedin, MoveLeft, MoveRight, ShoppingCart, Twitter } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
+
   return (
-   <main className="flex flex-col items-center w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-green-50 to-white">
+   <main id="home" className="flex flex-col items-center w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-green-50 to-white">
 
     {/* Navigation Bar Section */}
-    <section className="flex flex-row justify-between items-center w-full py-4 px-[105px] shadow-md shadow-green-100 sticky bg-green-50 top-0 z-30">
-      <div className="">
+    <section className="flex justify-between items-center w-full py-4 px-[105px] shadow-md shadow-green-100 sticky bg-green-50 top-0 z-30">
+      <div className="w-full">
         <Image src={"/Logo_03.png"} alt="logo" width={80} height={80} />
       </div>
-      <div className="">
-        <ul className="flex flex-row justify-center items-center space-x-14 capitalize font-medium text-sm">
-          <li>home</li>
-          <li>about</li>
-          <li>features</li>
-          <li>contact</li>
+      <div className="w-full">
+        <ul className="flex flex-row justify-center items-center space-x-14 capitalize font-medium text-sm w-full">
+          <Link href={'#home'} className="hover:text-white hover:bg-green-500 px-4 py-1 rounded-[10px] duration-300 transform ease-in-out"><li>home</li></Link>
+          <Link href={'#about'} className="hover:text-white hover:bg-green-500 px-4 py-1 rounded-[10px] duration-300 transform ease-in-out"><li>about</li></Link>
+          <Link href={'#services'} className="hover:text-white hover:bg-green-500 px-4 py-1 rounded-[10px] duration-300 transform ease-in-out"><li>services</li></Link>
+          <Link href={'#contact'} className="hover:text-white hover:bg-green-500 px-4 py-1 rounded-[10px] duration-300 transform ease-in-out"><li>contact</li></Link>
         </ul>
       </div>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-end w-full">
+        <Link href={'/sign-in'} className="hover:text-white hover:bg-green-500 px-4 py-1 rounded-[10px] duration-300 transform ease-in-out">Sign in!</Link>
       </div>
     </section>
 
@@ -34,8 +38,8 @@ export default function Home() {
             <div className="flex flex-col justify-center items-center h-full w-full relative">
               <Image src={"/content.png"} alt="content" width={200} height={200} className="h-full w-full  z-10"/>
               <div className="flex flex-col space-y-2 w-full px-4 absolute z-20 ">
-                <h2 className="font-bold text-4xl font-serif">Unlock Seamless Payments with Ileemi</h2>
-                <p className="w-3/4">Empowering you to make secure and efficient payments, Ileemi Pay is designed for a modern financial experience.</p>
+                <h2 className="font-bold text-4xl font-serif">Welcome to Illeemi, your one stop shop for simplifying home life.</h2>
+                <p className="w-3/4">Manage your bills, rent, maintenance, shopping, insurance, healthcare, and finances all in one place.</p>
               </div>
             </div>
           </div>
@@ -102,11 +106,12 @@ export default function Home() {
     </section>
 
     {/* About Us Section */}
-    <section className="w-full p-20">
+    <section id="about" className="w-full p-20">
       <div className="flex justify-between">
         <div className="flex flex-col space-y-4 w-1/2">
           <h1 className="font-bold text-3xl font-serif">About Us</h1>
-          <p>At Ileemi Pay, we are committed to delivering exceptional service, ensuring secure transactions, and fostering financial empowerment for all.</p>
+          <p>At Illeemi, we believe that home life should be easy and stress-free. That's why we've created a platform that streamlines all aspects of home management. 
+            Our team is dedicated to providing innovative solutions to make your easier.</p>
         </div>
         <div className="flex justify-center items-center">
           <Button className="shadow-xl shadow-slate-500">Learn More</Button>
@@ -117,22 +122,32 @@ export default function Home() {
           <div className="flex flex-col space-y-4">
             <h1 className="font-bold text-4xl">1.</h1>
             <h2 className="font-bold text-lg">Who We Are</h2>
-            <p className="text-sm">You get a 2-week free trial to kick the Smarty tries. We want you to.</p>
+            <p className="text-sm">Ileemi is an innovative technology company founded by a team of passionate individuals dedicated to simplifying home life via an easy-to-use simplified payment system. 
+              Our team comprises experts in Technology, Finance, Business Development and Customer service, all working together to provide a seamless experience for our users.</p>
           </div>
           <div className="flex flex-col space-y-4">
             <h1 className="font-bold text-4xl">2.</h1>
             <h2 className="font-bold text-lg">What Do We Do</h2>
-            <p className="text-sm">We give you a free course that guides you through the process.</p>
+            <p className="text-sm">We provide a comprehensive platform that streamlines various aspects of home management, including bill payments, rent payments, home maintenance, shopping, insurance premiums, healthcare services, and financial planning. 
+              Our platform is designed to make life easier for families, giving them more time to focus on what matters most.</p>
           </div>
           <div className="flex flex-col space-y-4">
             <h1 className="font-bold text-4xl">3.</h1>
             <h2 className="font-bold text-lg">How Do We Help</h2>
-            <p className="text-sm">Use our multimedia lecturers, videos, and coaching sessions.</p>
+            <ul className="text-sm list-disc">
+              <p>We help our users by:</p>
+              <li>Saving them time and effort through automated payments and streamlined services</li>
+              <li>Reducing stress and late fees through timely reminders and notifications</li>
+              <li>Providing access to trusted service providers for home maintenance and repairs</li>
+              <li>Offering convenient online shopping and digital vouchers for everyday essentials</li>
+              <li>Ensuring continuous insurance coverage and access to healthcare services</li>
+              <li>Empowering users to take control of their finances through digital savings and investment plans</li>
+            </ul>	
           </div>
           <div className="flex flex-col space-y-4">
             <h1 className="font-bold text-4xl">4.</h1>
             <h2 className="font-bold text-lg">Create success story</h2>
-            <p className="text-sm">With access to online learning resources anyone can transfrm.</p>
+            <p className="text-sm">With access to online learning resources anyone can transform.</p>
           </div>
         </div>
         <div className="w-full">
@@ -141,14 +156,14 @@ export default function Home() {
       </div>
     </section>
 
-    {/* Products section */}
-    <section className="w-full px-20 py-10">
+    {/* Services section */}
+    <section id="services" className="w-full px-20 py-10">
       <div className="flex justify-between">
-        <h1 className="font-bold text-4xl font-serif">Products</h1>
-        <div className="flex space-x-2">
+        <h1 className="font-bold text-4xl font-serif">Services</h1>
+        <Link href='#services' className="flex space-x-2 hover:text-white hover:bg-green-500 px-4 pt-2 rounded-[10px] duration-300 transform ease-in-out">
           <p>See All</p>
           <MoveRight />
-        </div>
+        </Link>
       </div>
       <ul className="flex flex-row justify-center items-center space-x-10 font-bold text-sm capitalize w-full my-10">
         <li>all</li>
@@ -268,15 +283,15 @@ export default function Home() {
     </section>
 
     {/* Footer Section */}
-    <section className="bg-[#244D4D] w-full p-20">
+    <section id="contact" className="bg-[#244D4D] w-full p-20">
       <div className="">
         <div className="flex flex-row justify-center items-center">
           <div className="w-full text-white text-3xl">
             <p>Start your business today for $0+ state fees.</p>
           </div>
           <div className="flex justify-center items-center space-x-5 w-full">
-            <Button className="text-[#244D4D] bg-white hover:text-white hover:bg-[#3A5F5F] rounded-2xl">Get Started</Button>
-            <Button className="text-white bg-[#3A5F5F] hover:text-[#244D4D] hover:bg-white rounded-2xl">Contact Sales</Button>
+            <Link href={'/sign-in'} className="text-[#244D4D] bg-white hover:text-white hover:bg-[#3A5F5F] rounded-2xl px-4 py-2 duration-300 transform ease-in-out">Get Started</Link>
+            <Link href={'/#contact'} className="text-[#244D4D] bg-white hover:text-white hover:bg-[#3A5F5F] rounded-2xl px-4 py-2 duration-300 transform ease-in-out">Contact Sales</Link>
           </div>
         </div>
         <hr className="my-10"/>

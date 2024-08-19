@@ -74,10 +74,10 @@ const config = {
       },
       height: {
         "hero": "33rem",
-        "custom": "20rem",
+        "custom": "24rem",
       },
       width: {
-        "custom": "22rem",
+        "custom": "25rem",
       },
       boxShadow: {
         "boxShadow": "0 4px 0 -1px rgba(0, 0, 0, 0.4)",

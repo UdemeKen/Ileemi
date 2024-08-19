@@ -27,7 +27,7 @@ export default function SidebarDesktop(props: SidebarDesktopProps) {
           </div>
           <hr className='border-0 h-1 bg-gradient-to-r from-transparent via-gray-300 to-transparent my-5'/>
           <div className='mt-10'>
-            <div className='flex flex-col gap-1 w-full'>
+            <div className='flex flex-col gap-4 w-full'>
               {props.sidebarItems.links.map((link, index) => (
                 <Link key={index} href={link.href}>
                   <SideBarButton variant={pathname === link.href ? 'secondary' : 'ghost'}  icon={link.icon} className={`w-full text-[#A0AEC0] ${pathname === link.href ? 'text-green-500' : ""}`}>
@@ -61,9 +61,11 @@ export default function SidebarDesktop(props: SidebarDesktopProps) {
                         Account Settings
                       </SideBarButton>
                     </Link>
+                    <Link href={'/'}>
                       <SideBarButton size={'sm'} icon={LogOut} className='w-full'>
                         Log Out
                       </SideBarButton>
+                    </Link>
                   </div>
                 </PopoverContent>
               </Popover>
