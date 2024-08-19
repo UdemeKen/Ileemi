@@ -110,7 +110,7 @@ export default function Home() {
       <div className="flex justify-between">
         <div className="flex flex-col space-y-4 w-1/2">
           <h1 className="font-bold text-3xl font-serif">About Us</h1>
-          <p>At Ileemi, we believe that home life should be easy and stress-free. That&apos;s why we've created a platform that streamlines all aspects of home management. 
+          <p>At Ileemi, we believe that home life should be easy and stress-free. That&apos;s why we&apos;ve created a platform that streamlines all aspects of home management. 
             Our team is dedicated to providing innovative solutions to make your easier.</p>
         </div>
         <div className="flex justify-center items-center">
