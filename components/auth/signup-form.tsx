@@ -1,5 +1,9 @@
 'use client'
 
+import { useMutation } from "@tanstack/react-query"
+import axiosClient from "@/lib/axios"
+import { toast } from 'sonner'
+import { useRouter } from "next/navigation"
 import CardWrapper from "./card-wrapper"
 import {
   Form,
@@ -21,15 +25,21 @@ import { useState } from "react"
 
 
 const countries = [
-  { label: 'United States', value: 'US' },
-  { label: 'Canada', value: 'CA' },
-  { label: 'United Kingdom', value: 'UK' },
-  { label: 'Nigeria', value: 'NG' },
-  { label: 'Australia', value: 'AU' },
+  { label: "United States", value: "United States" },
+  { label: "Canada", value: "Canada" },
+  { label: "United Kingdom", value: "United Kingdom" },
+  { label: "Nigeria", value: "Nigeria" },
+  { label: "Australia", value: "Australia" },
 ];
+
+type RegisterResponse = {
+  message: string;
+  user?: any;
+}
 
 
 export default function SignupForm() {
+  const router = useRouter();
   const [ loading, setLoading ] = useState(false);
 
   const form = useForm({
@@ -44,12 +54,30 @@ export default function SignupForm() {
     }
   })
 
+  const { mutate: register, isPending } = useMutation({
+    mutationFn: (data: z.infer<typeof SignupSchema>) => axiosClient.post<RegisterResponse>('/register', data),
+    onSuccess: (response) => {
+      console.log(response);
+      toast.success(response?.data?.message);
+      router.push('/sign-in');
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toast.error(error?.response?.data?.payload?.email);
+      toast.error(error?.response?.data?.payload?.phone);
+    },
+    onSettled: () => {
+      if (isPending) {
+        form.reset();
+      }
+    }
+  });
+
   const onSubmit = (data: z.infer<typeof SignupSchema>) => {
     setLoading(true)
+    register(data)
     console.log(data);
   }
-
-  const { pending } = useFormStatus()
 
   return (
     <CardWrapper
@@ -68,7 +96,7 @@ export default function SignupForm() {
                 return <FormItem>
                   <FormLabel>Full Name</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="bug hunter" />
+                    <Input {...field} placeholder="Udeme Kendrick" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -147,8 +175,12 @@ export default function SignupForm() {
               }}
             />
           </div>
-          <Button type="submit" className="w-full" disabled={pending}>
-            {loading ? "Loading..." : "Sign up"}
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isPending}
+          >
+            {isPending ? "Loading..." : "Sign up"}
           </Button>
         </form>
       </Form>

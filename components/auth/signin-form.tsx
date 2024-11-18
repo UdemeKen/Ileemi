@@ -1,5 +1,9 @@
 'use client'
 
+import { useMutation } from "@tanstack/react-query"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import axiosClient from "@/lib/axios"
 import CardWrapper from "./card-wrapper"
 import {
   Form,
@@ -20,9 +24,16 @@ import { useFormStatus } from "react-dom"
 import { useState } from "react"
 
 
-export default function SigninForm() {
-    const [ loading, setLoading ] = useState(false);
+type LoginResponse = {
+  message: string;
+  token?: string;
+  user?: any;
+}
 
+export default function SigninForm() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  
   const form = useForm({
     resolver: zodResolver(SigninSchema),
     defaultValues: {
@@ -31,17 +42,30 @@ export default function SigninForm() {
     }
   })
 
+  const { mutate: login, isPending } = useMutation({
+    mutationFn: (data: z.infer<typeof SigninSchema>) => axiosClient.post<LoginResponse>('/login', data),
+    onSuccess: (response) => {
+      toast.success(response.data.message || 'Login successful!');
+      setTimeout(() => {
+        router.push('/page/dashboard');
+      }, 2000);
+    },
+    onError: (error: any) => {
+      toast.error(error?.data?.message || 'Login failed. Please check your credentials.');
+    }
+  })
+
+
   const onSubmit = (data: z.infer<typeof SigninSchema>) => {
     setLoading(true);
+    login(data);
     console.log(data);
   }
-
-  const { pending } = useFormStatus();
 
   return (
     <CardWrapper
       label="Sign in to your account"
-      title="Signin"
+      title="Sign in"
       backButtonHref="/sign-up"
       backButtonLabel="Don't have an account? Register here."
     >
@@ -75,8 +99,8 @@ export default function SigninForm() {
               }}
             />
           </div>
-          <Button type="submit" className="w-full" disabled={pending}>
-            {loading ? "Loading..." : "Sign in"}
+          <Button type="submit" className="w-full" disabled={isPending}>
+            {isPending ? "Loading..." : "Sign in"}
           </Button>
         </form>
       </Form>
