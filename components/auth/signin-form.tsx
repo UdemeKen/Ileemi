@@ -1,5 +1,6 @@
 'use client'
 
+import { useStateContext } from "@/context/ContextProvider"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
@@ -26,13 +27,16 @@ import { useState } from "react"
 
 type LoginResponse = {
   message: string;
-  token?: string;
-  user?: any;
-}
+  payload?: {
+    token?: string;
+    user?: any;
+  };
+};
 
 export default function SigninForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { setUserToken } = useStateContext();
   
   const form = useForm({
     resolver: zodResolver(SigninSchema),
@@ -45,6 +49,11 @@ export default function SigninForm() {
   const { mutate: login, isPending } = useMutation({
     mutationFn: (data: z.infer<typeof SigninSchema>) => axiosClient.post<LoginResponse>('/login', data),
     onSuccess: (response) => {
+      const token = response?.data?.payload?.token;
+      console.log(token);
+      if (token) {
+        setUserToken(token);
+      }
       toast.success(response.data.message || 'Login successful!');
       setTimeout(() => {
         router.push('/page/dashboard');

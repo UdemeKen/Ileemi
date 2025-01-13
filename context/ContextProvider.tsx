@@ -1,4 +1,7 @@
+'use client'
+
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import { useRouter } from 'next/navigation';
 
 interface StateContextType {
     currentUser: Record<string, any>;
@@ -19,14 +22,25 @@ interface ContextProviderProps {
 }
 
 export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
+    const router = useRouter();
     const [currentUser, setCurrentUser] = useState<Record<string, any>>({});
-    const [userToken, _setUserToken] = useState<string | null>(localStorage.getItem("TOKEN"));
+    const [userToken, _setUserToken] = useState<string | null>(null);
+
+    React.useEffect(() => {
+        const token = localStorage.getItem("TOKEN");
+        if (token) {
+            _setUserToken(token);
+        } else if (window.location.pathname !== '/sign-in') {
+            router.push('/sign-in');
+        }
+    }, [router]);
 
     const setUserToken = (token: string | null): void => {
         if (token) {
             localStorage.setItem("TOKEN", token);
         } else {
             localStorage.removeItem("TOKEN");
+            router.push('/sign-in');
         }
         _setUserToken(token);
     };

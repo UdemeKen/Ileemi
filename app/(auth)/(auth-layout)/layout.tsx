@@ -49,6 +49,7 @@ export default function AuthLayout({
                         <div className='absolute inset-0 bg-gradient-to-tr from-slate-50 from-0%'></div>
                         <div className='absolute inset-0 bg-gradient-to-br from-slate-50 from-0%'></div>
                         <Image src={'/auth_background_image.jpg'} alt="Logo" width={1920} height={1080} />
+                        <h1>ZIKY</h1>
                     </div>
                     <div className="absolute inset-0 w-full h-full flex items-center justify-center space-x-4 px-32">
                         <div className='w-full flex flex-col justify-center items-center'>
