@@ -26,6 +26,7 @@ import { useState } from "react"
 
 
 type LoginResponse = {
+  success: string;
   message: string;
   payload?: {
     token?: string;
@@ -49,18 +50,24 @@ export default function SigninForm() {
   const { mutate: login, isPending } = useMutation({
     mutationFn: (data: z.infer<typeof SigninSchema>) => axiosClient.post<LoginResponse>('/login', data),
     onSuccess: (response) => {
-      const token = response?.data?.payload?.token;
-      console.log(token);
-      if (token) {
-        setUserToken(token);
+      if (response?.data?.success) {
+        const token = response?.data?.payload?.token;
+        if (token) {
+          setUserToken(token);
+        }
+        toast.success(response?.data?.message || 'Login successful!');
+        localStorage.setItem("Username", response?.data?.payload?.user?.name);
+        setTimeout(() => {
+            router.push('/page/dashboard');
+        }, 2000);
+      } else {
+        toast.error(response?.response?.data?.payload || 'Login failed. Please check your credentials.');
+        form.reset();
       }
-      toast.success(response.data.message || 'Login successful!');
-      setTimeout(() => {
-        router.push('/page/dashboard');
-      }, 2000);
     },
     onError: (error: any) => {
       toast.error(error?.data?.message || 'Login failed. Please check your credentials.');
+      form.reset();
     }
   })
 
@@ -68,7 +75,6 @@ export default function SigninForm() {
   const onSubmit = (data: z.infer<typeof SigninSchema>) => {
     setLoading(true);
     login(data);
-    console.log(data);
   }
 
   return (

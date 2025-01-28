@@ -1,6 +1,5 @@
 "use client"
 import Image from "next/image";
-import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { Inter } from "next/font/google";
@@ -42,8 +41,8 @@ export default function AuthLayout({
     };
 
     return (
-        <html lang="en">
-          <body className={inter.className}>
+        // <html lang="en">
+        //   <body className={inter.className}>
                 <section className='relative w-full h-screen overflow-hidden'>
                     <div className='absolute inset-0'>
                         <div className='absolute inset-0 bg-gradient-to-tr from-slate-50 from-0%'></div>
@@ -81,7 +80,7 @@ export default function AuthLayout({
                         </div>
                     </div>
                 </section>
-          </body>
-        </html>
+        //   </body>
+        // </html>
     );
   }

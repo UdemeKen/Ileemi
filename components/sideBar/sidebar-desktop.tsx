@@ -18,6 +18,8 @@ export default function SidebarDesktop(props: SidebarDesktopProps) {
 
   const pathname = usePathname();
 
+  const username = localStorage.getItem("Username");
+
   return (
     <aside className="w-[220px] max-w-sm h-screen fixed left-0 top-0 z-40">
       <div className="h-full px-3 py-4">
@@ -54,7 +56,7 @@ export default function SidebarDesktop(props: SidebarDesktopProps) {
                           {/* <AvatarImage src='https://media.licdn.com/dms/image/D4D03AQFfym_3l24Fqg/profile-displayphoto-shrink_800_800/0/1678470463947?e=1729123200&v=beta&t=HF8DMVoxmFoEEo8rGN32u0NjQaJFuJKIxGnRHMe_dhA'/> */}
                           {/* <AvatarFallback>k</AvatarFallback> */}
                         </Avatar>
-                        <span>Udeme Kendrick</span>
+                        <span>{username}</span>
                       </div>
                       <MoreHorizontal size={20} />
                     </div>

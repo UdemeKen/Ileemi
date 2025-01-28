@@ -26,7 +26,7 @@ export default function DashboardDesktop(props: DasboardDesktopProps) {
           </DashboardCard>
         ))}
       </div>
-      <div className="flex flex-row gap-4 justify-center">
+      <div className="flex flex-row gap-4 justify-center mb-[50px]">
         <div className="grid grid-cols-3 gap-4 h-full w-full">
           <DashboardCard className="h-[12rem]">
             <div></div>

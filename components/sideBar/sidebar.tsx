@@ -15,11 +15,11 @@ const sidebarItems: SidebarItems = {
         { label: 'Help', href: '/page/help', icon: Contact},
     ], 
     extras: (
-        <div className='flex flex-col space-y-4'>
-            <h1 className='my-5'>Account Pages</h1>
-            <SideBarButton icon={MoreHorizontal} className='w-full text-[#A0AEC0]'>
+        <div className='flex flex-col space-y-4 my-[165px]'>
+            {/* <h1 className='my-5'>Account Pages</h1> */}
+            {/* <SideBarButton icon={MoreHorizontal} className='w-full text-[#A0AEC0]'>
                 More
-            </SideBarButton>
+            </SideBarButton> */}
             <SideBarButton className='w-full h-[150px] justify-center' variant='default'>
                 Help
             </SideBarButton>
