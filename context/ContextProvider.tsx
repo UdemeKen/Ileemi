@@ -31,7 +31,8 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
         if (token) {
             _setUserToken(token);
         } else if (window.location.pathname !== '/sign-in') {
-            router.push('/sign-in');
+            router.push('/activation');
+            // router.push('/sign-in');
         }
     }, [router]);
 
@@ -40,7 +41,8 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
             localStorage.setItem("TOKEN", token);
         } else {
             localStorage.removeItem("TOKEN");
-            router.push('/sign-in');
+            router.push('/activation');
+            // router.push('/sign-in');
         }
         _setUserToken(token);
     };

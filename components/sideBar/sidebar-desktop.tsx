@@ -42,7 +42,7 @@ export default function SidebarDesktop(props: SidebarDesktopProps) {
                   </SideBarButton>
                 </Link>
               ))}
-              {props.sidebarItems.extras}
+              {/* {props.sidebarItems.extras} */}
             </div>
             <div className="absolute left-0 bottom-3 w-full px-3">
               <Separator className="absolute -top-3 left-0 w-full" />

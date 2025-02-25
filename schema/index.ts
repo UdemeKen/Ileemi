@@ -29,3 +29,12 @@ export const SigninSchema = z.object({
         message: "Password must be atleast 6 characters long"
     })
 })
+
+export const ActivationSchema = z.object({
+    email: z.string().email({
+        message: "Please enter a valid email address"
+    }),
+    otp: z.string().min(6, {
+        message: "OTP must be atleast 4 characters long"
+    })
+})

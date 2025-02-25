@@ -52,17 +52,22 @@ export default function SigninForm() {
     onSuccess: (response) => {
       if (response?.data?.success) {
         const token = response?.data?.payload?.token;
+        const userData = response?.data?.payload?.user;
         if (token) {
           setUserToken(token);
         }
+        localStorage.setItem("Username", userData?.name);
+        localStorage.setItem("FlagUrl", userData?.payload[0]?.flag);
+        localStorage.setItem("CountryName", userData?.payload[0]?.name);
+        localStorage.setItem("CurrencySymbol", userData?.payload[0]?.currencies[0]?.symbol);
+        localStorage.setItem("CurrencyCode", userData?.payload[0]?.currencies[0]?.code);
         toast.success(response?.data?.message || 'Login successful!');
-        localStorage.setItem("Username", response?.data?.payload?.user?.name);
         setTimeout(() => {
-            router.push('/page/dashboard');
+          router.push('/page/dashboard');
         }, 2000);
       } else {
         toast.error(response?.response?.data?.payload || 'Login failed. Please check your credentials.');
-        form.reset();
+        // form.reset();
       }
     },
     onError: (error: any) => {

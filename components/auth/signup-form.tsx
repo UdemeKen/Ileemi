@@ -1,10 +1,11 @@
-'use client'
+"use client";
 
-import { useMutation } from "@tanstack/react-query"
-import axiosClient from "@/lib/axios"
-import { toast } from 'sonner'
-import { useRouter } from "next/navigation"
-import CardWrapper from "./card-wrapper"
+import { useState, useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
+import axiosClient from "@/lib/axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import CardWrapper from "./card-wrapper";
 import {
   Form,
   FormControl,
@@ -12,35 +13,52 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
-} from '@/components/ui/form'
-import { SignupSchema } from "@/schema"
-import { zodResolver } from "@hookform/resolvers/zod"
+  FormMessage,
+} from "@/components/ui/form";
+import { SignupSchema } from "@/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useForm } from "react-hook-form"
-import { Input } from "../ui/input"
-import { Button } from "../ui/button"
-import { useFormStatus } from "react-dom"
-import { useState } from "react"
+import { useForm } from "react-hook-form";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { useFormStatus } from "react-dom";
 
-
-const countries = [
-  { label: "United States", value: "United States" },
-  { label: "Canada", value: "Canada" },
-  { label: "United Kingdom", value: "United Kingdom" },
-  { label: "Nigeria", value: "Nigeria" },
-  { label: "Australia", value: "Australia" },
-];
+interface Country {
+  name: {
+    common: string;
+  };
+  flags: {
+    png: string;
+    svg: string;
+  };
+  flag: string;
+}
 
 type RegisterResponse = {
   message: string;
   user?: any;
-}
-
+};
 
 export default function SignupForm() {
   const router = useRouter();
-  const [ loading, setLoading ] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [countries, setCountries] = useState<Country>([]);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch("https://restcountries.com/v3.1/all");
+        const data = await response.json();
+        const sortedCountries = data.sort((a: Country, b: Country) =>
+          a.name.common.localeCompare(b.name.common)
+        );
+        setCountries(sortedCountries);
+      } catch (error) {
+        console.log("Error fetching countries:", error);
+      }
+    };
+    fetchCountries();
+  }, []);
 
   const form = useForm({
     resolver: zodResolver(SignupSchema),
@@ -50,16 +68,21 @@ export default function SignupForm() {
       phone: "",
       country: "",
       password: "",
-      confirmPassword: ""
-    }
-  })
+      confirmPassword: "",
+    },
+  });
 
   const { mutate: register, isPending } = useMutation({
-    mutationFn: (data: z.infer<typeof SignupSchema>) => axiosClient.post<RegisterResponse>('/register', data),
+    mutationFn: async (data: z.infer<typeof SignupSchema>) =>
+      await axiosClient.post<RegisterResponse>("/register", data),
     onSuccess: (response) => {
       console.log(response);
+      localStorage.setItem(
+        "Email",
+        response?.data?.payload?.user?.email || form.getValues("email")
+      );
       toast.success(response?.data?.message);
-      router.push('/sign-in');
+      router.push("/activation");
     },
     onError: (error: any) => {
       console.log(error);
@@ -70,62 +93,71 @@ export default function SignupForm() {
       if (isPending) {
         form.reset();
       }
-    }
+    },
   });
 
   const onSubmit = (data: z.infer<typeof SignupSchema>) => {
-    setLoading(true)
-    register(data)
+    setLoading(true);
+    register(data);
     console.log(data);
-  }
+  };
 
   return (
     <CardWrapper
       label="Create an account"
       title="Signup"
       backButtonHref="/sign-in"
-      backButtonLabel="Already have an account? Sign-in here."
-    >
+      backButtonLabel="Already have an account? Sign-in here.">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-2 gap-2">
-            <FormField 
+            <FormField
               control={form.control}
               name="name"
               render={({ field }) => {
-                return <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="Udeme Kendrick" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+                return (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Udeme Kendrick" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
               }}
             />
-            <FormField 
+            <FormField
               control={form.control}
               name="email"
               render={({ field }) => {
-                return <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="email" placeholder="ileemi@gmail.com" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+                return (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="email"
+                        placeholder="ileemi@gmail.com"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
               }}
             />
-            <FormField 
+            <FormField
               control={form.control}
               name="phone"
               render={({ field }) => {
-                return <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="+234 000 000" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+                return (
+                  <FormItem>
+                    <FormLabel>Phone Number</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="+234 000 000" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
               }}
             />
             <FormField
@@ -135,11 +167,16 @@ export default function SignupForm() {
                 <FormItem>
                   <FormLabel>Country</FormLabel>
                   <FormControl>
-                    <select {...field} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                      <option value="" disabled>Select your country</option>
+                    <select
+                      {...field}
+                      className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                      <option value="">Select your country</option>
                       {countries.map((country) => (
-                        <option key={country.value} value={country.value}>
-                          {country.label}
+                        <option
+                          key={country.name.common}
+                          value={country.name.common}
+                          className="flex items-end gap-2">
+                          {country.flag} {country.name.common}
                         </option>
                       ))}
                     </select>
@@ -148,42 +185,42 @@ export default function SignupForm() {
                 </FormItem>
               )}
             />
-            <FormField 
+            <FormField
               control={form.control}
               name="password"
               render={({ field }) => {
-                return <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="password" placeholder="******" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+                return (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="password" placeholder="******" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
               }}
             />
-            <FormField 
+            <FormField
               control={form.control}
               name="confirmPassword"
               render={({ field }) => {
-                return <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="password" placeholder="******" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+                return (
+                  <FormItem>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="password" placeholder="******" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                );
               }}
             />
           </div>
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isPending}
-          >
+          <Button type="submit" className="w-full" disabled={isPending}>
             {isPending ? "Loading..." : "Sign up"}
           </Button>
         </form>
       </Form>
     </CardWrapper>
-  )
+  );
 }
