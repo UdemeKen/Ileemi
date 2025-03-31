@@ -32,13 +32,13 @@ export default function Dashboard({ params }: { params: { page: string } }) {
   const { data, error, isLoading } = useQuery<UserProfile, Error>({
     queryKey: ["userProfile"],
     queryFn: async () => {
-      if (!localStorage.getItem("username")) {
+      if (typeof window !== 'undefined' && !localStorage.getItem("username")) {
         const response = await axiosClient.get("/getprofile/");
         return response.data;
       }
       return null;
     },
-    enabled: !localStorage.getItem("username")
+    enabled: typeof window !== 'undefined' && !localStorage.getItem("username")
   });
 
   useEffect(() => {
@@ -55,26 +55,25 @@ export default function Dashboard({ params }: { params: { page: string } }) {
   }, []);
 
   useEffect(() => {
-    // Access localStorage only after component mounts (client-side)
-    setUserData({
-      username: localStorage.getItem("username") || "",
-      flagUrl: localStorage.getItem("flagUrl") || "",
-      countryName: localStorage.getItem("countryName") || "",
-      currencySymbol: localStorage.getItem("currency_symbol") || "",
-      countryCode: localStorage.getItem("country_code") || "",
-    });
+    if (typeof window !== 'undefined') {
+      setUserData({
+        username: localStorage.getItem("username") || "",
+        flagUrl: localStorage.getItem("flagUrl") || "",
+        countryName: localStorage.getItem("countryName") || "",
+        currencySymbol: localStorage.getItem("currency_symbol") || "",
+        countryCode: localStorage.getItem("country_code") || "",
+      });
+    }
   }, []);
 
   useEffect(() => {
-    if (data && countries && countries.length > 0) {
+    if (data && countries && countries.length > 0 && typeof window !== 'undefined') {
       const countryData = countries.find(c => c.country || c.currencies[0].code === data.country);
       const username = `${data?.first_name} ${data?.last_name}`;
       const flagUrl = countryData?.flag || "";
       const countryName = data?.country || "";
       const wallet = data?.wallet?.amount || "";
       const currency_symbol = data?.currency_symbol || "";
-      console.log(data.country);
-      
       
       // Store in localStorage
       localStorage.setItem("username", username);
