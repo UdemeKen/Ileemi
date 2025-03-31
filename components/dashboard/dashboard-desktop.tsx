@@ -49,15 +49,14 @@ export default function DashboardDesktop(props: DasboardDesktopProps) {
       <div className="flex flex-row gap-4 justify-center mb-[50px]">
         <div className="grid grid-cols-3 gap-4 h-full w-full">
           {props.SecondDashBoardCardItem.links.map((link, index) => (
-            <Link href={link.href}>
-            <DashboardCard
-              key={index}
-              className="h-[12rem] flex flex-col justify-center items-center hover:scale-105 hover:shadow-lg transition-all duration-300">
-              <div className="flex flex-col justify-center items-center gap-4">
-                <Image src={link.image} alt={""} width={70} height={70} />
-                <p className="text-[17px] font-medium">{link.name}</p>
-              </div>
-            </DashboardCard>
+            <Link key={index} href={link.href}>
+              <DashboardCard
+                className="h-[12rem] flex flex-col justify-center items-center hover:scale-105 hover:shadow-lg transition-all duration-300">
+                <div className="flex flex-col justify-center items-center gap-4">
+                  <Image src={link.image} alt={link.name} width={70} height={70} />
+                  <p className="text-[17px] font-medium">{link.name}</p>
+                </div>
+              </DashboardCard>
             </Link>
           ))}
         </div>
