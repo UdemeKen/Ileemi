@@ -41,46 +41,42 @@ export default function AuthLayout({
     };
 
     return (
-        // <html lang="en">
-        //   <body className={inter.className}>
-                <section className='relative w-full h-screen overflow-hidden'>
-                    <div className='absolute inset-0'>
-                        <div className='absolute inset-0 bg-gradient-to-tr from-slate-50 from-0%'></div>
-                        <div className='absolute inset-0 bg-gradient-to-br from-slate-50 from-0%'></div>
-                        <Image src={'/auth_background_image.jpg'} alt="Logo" width={1920} height={1080} />
-                        <h1>ZIKY</h1>
-                    </div>
-                    <div className="absolute inset-0 w-full h-full flex items-center justify-center space-x-4 px-32">
-                        <div className='w-full flex flex-col justify-center items-center'>
-                        <Image src={'/Logo_03.png'} alt="Logo" width={200} height={200} className="my-20"/>
-                            <TransitionGroup className={'text-center'}>
-                                <CSSTransition
-                                    key={currentMessageIndex}
-                                    timeout={1000}
-                                    classNames="slide"
-                                >
-                                <div className="text-green-800 flex flex-col justify-normal">
-                                    <h1 className="text-2xl font-bold font-sans z-10">{messages[currentMessageIndex]}</h1>
-                                    <p className=''>{descriptions[currentMessageIndex]}</p>
-                                </div>
-                                </CSSTransition>
-                            </TransitionGroup>
-                            <div className="flex space-x-2 mt-4">
-                                {messages.map((_, index) => (
-                                    <button
-                                    key={index}
-                                    onClick={() => handleClick(index)}
-                                    className={`w-10 h-2 rounded-md ${currentMessageIndex === index ? 'bg-green-800' : 'bg-slate-300'}`}
-                                    />
-                                ))}
+            <section className='relative w-full h-screen overflow-hidden'>
+                <div className='absolute inset-0'>
+                    <div className='absolute inset-0 bg-gradient-to-tr from-slate-50 from-0%'></div>
+                    <div className='absolute inset-0 bg-gradient-to-br from-slate-50 from-0%'></div>
+                    <Image src={'/auth_background_image.jpg'} alt="Logo" width={1920} height={1080} className="h-screen"/>
+                    <h1>ZIKY</h1>
+                </div>
+                <div className="absolute inset-0 w-full h-full flex items-center justify-center space-x-4 px-32">
+                    <div className='w-full flex flex-col justify-center items-center'>
+                    <Image src={'/Logo_03.png'} alt="Logo" width={200} height={200} className="my-20"/>
+                        <TransitionGroup className={'text-center'}>
+                            <CSSTransition
+                                key={currentMessageIndex}
+                                timeout={1000}
+                                classNames="slide"
+                            >
+                            <div className="text-green-800 flex flex-col justify-normal">
+                                <h1 className="text-2xl font-bold font-sans z-10">{messages[currentMessageIndex]}</h1>
+                                <p className=''>{descriptions[currentMessageIndex]}</p>
                             </div>
-                        </div>
-                        <div className='w-full flex flex-col justify-center items-center'>
-                            {children}
+                            </CSSTransition>
+                        </TransitionGroup>
+                        <div className="flex space-x-2 mt-4">
+                            {messages.map((_, index) => (
+                                <button
+                                key={index}
+                                onClick={() => handleClick(index)}
+                                className={`w-10 h-2 rounded-md ${currentMessageIndex === index ? 'bg-green-800' : 'bg-slate-300'}`}
+                                />
+                            ))}
                         </div>
                     </div>
-                </section>
-        //   </body>
-        // </html>
-    );
+                    <div className='w-full flex flex-col justify-center items-center'>
+                        {children}
+                    </div>
+                </div>
+            </section>
+        );
   }

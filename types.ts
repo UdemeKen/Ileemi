@@ -23,5 +23,6 @@ export interface SecondDashboardCardItems {
   links: Array<{
     image: string;
     name: string;
+    href: string;
   }>;
 }

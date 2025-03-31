@@ -4,7 +4,7 @@ import { useStateContext } from "@/context/ContextProvider"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import axiosClient from "@/lib/axios"
+import axiosClient1 from "@/lib/axios copy"
 import CardWrapper from "./card-wrapper"
 import {
   Form,
@@ -28,10 +28,7 @@ import { useState } from "react"
 type LoginResponse = {
   success: string;
   message: string;
-  payload?: {
-    token?: string;
-    user?: any;
-  };
+  token?: string;
 };
 
 export default function SigninForm() {
@@ -42,36 +39,32 @@ export default function SigninForm() {
   const form = useForm({
     resolver: zodResolver(SigninSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     }
   })
 
   const { mutate: login, isPending } = useMutation({
-    mutationFn: (data: z.infer<typeof SigninSchema>) => axiosClient.post<LoginResponse>('/login', data),
+    mutationFn: (data: z.infer<typeof SigninSchema>) => axiosClient1.post<LoginResponse>('/login/', data),
     onSuccess: (response) => {
-      if (response?.data?.success) {
-        const token = response?.data?.payload?.token;
-        const userData = response?.data?.payload?.user;
+      console.log(response);
+      if (response?.statusText === "OK") {
+        const token = response?.data?.token;
         if (token) {
           setUserToken(token);
         }
-        localStorage.setItem("Username", userData?.name);
-        localStorage.setItem("FlagUrl", userData?.payload[0]?.flag);
-        localStorage.setItem("CountryName", userData?.payload[0]?.name);
-        localStorage.setItem("CurrencySymbol", userData?.payload[0]?.currencies[0]?.symbol);
-        localStorage.setItem("CurrencyCode", userData?.payload[0]?.currencies[0]?.code);
         toast.success(response?.data?.message || 'Login successful!');
         setTimeout(() => {
           router.push('/page/dashboard');
         }, 2000);
       } else {
-        toast.error(response?.response?.data?.payload || 'Login failed. Please check your credentials.');
-        // form.reset();
+        toast.error('Login failed. Please check your credentials.');
+        form.reset();
       }
     },
     onError: (error: any) => {
-      toast.error(error?.data?.message || 'Login failed. Please check your credentials.');
+      console.log(error);
+      toast.error(error?.response?.data?.non_field_errors[0] || 'Login failed. Please check your credentials.');
       form.reset();
     }
   })
@@ -94,7 +87,7 @@ export default function SigninForm() {
           <div className="space-y-2">
             <FormField 
               control={form.control}
-              name="email"
+              name="username"
               render={({ field }) => {
                 return <FormItem>
                   <FormLabel>Email</FormLabel>

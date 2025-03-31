@@ -2,15 +2,18 @@ import Link from "next/link"
 import { Button } from "../ui/button"
 
 interface BackButtonProps {
-    label: string
-    href: string
+    label?: string
+    href?: string
 }
 
-export default function BackButton({label, href}: BackButtonProps) {
+export default function BackButton({ label, href }: BackButtonProps) {
+  if (!label || !href) return null;
+  
   return (
     <Button
         variant="link"
         className="font-normal w-full"
+        size="sm"
         asChild
     >
         <Link href={href}>

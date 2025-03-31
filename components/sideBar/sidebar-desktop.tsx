@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import SideBarButton from './sidebar-button'
 import { SidebarItems } from '@/types';
 import Link from 'next/link';
@@ -15,10 +15,22 @@ interface SidebarDesktopProps {
 }
 
 export default function SidebarDesktop(props: SidebarDesktopProps) {
-
   const pathname = usePathname();
+  const [username, setUsername] = useState<string>("");
 
-  const username = localStorage.getItem("Username");
+  useEffect(() => {
+    const checkUsername = () => {
+      const storedUsername = localStorage.getItem("username");
+      if (storedUsername) {
+        setUsername(storedUsername);
+      } else {
+        // Check again after 1 second if username is not found
+        setTimeout(checkUsername, 1000);
+      }
+    };
+
+    checkUsername();
+  }, []);
 
   return (
     <aside className="w-[220px] max-w-sm h-screen fixed left-0 top-0 z-40">
@@ -35,7 +47,7 @@ export default function SidebarDesktop(props: SidebarDesktopProps) {
                   <SideBarButton
                     variant={pathname === link.href ? "secondary" : "ghost"}
                     icon={link.icon}
-                    className={`w-full text-[#A0AEC0] ${
+                    className={`w-full text-[#3a3c3f] ${
                       pathname === link.href ? "text-green-500" : ""
                     }`}>
                     {link.label}
@@ -53,10 +65,8 @@ export default function SidebarDesktop(props: SidebarDesktopProps) {
                       <div className="flex space-x-2">
                         <Avatar className="h-5 w-5">
                           <User2Icon size={20} />
-                          {/* <AvatarImage src='https://media.licdn.com/dms/image/D4D03AQFfym_3l24Fqg/profile-displayphoto-shrink_800_800/0/1678470463947?e=1729123200&v=beta&t=HF8DMVoxmFoEEo8rGN32u0NjQaJFuJKIxGnRHMe_dhA'/> */}
-                          {/* <AvatarFallback>k</AvatarFallback> */}
                         </Avatar>
-                        <span>{username}</span>
+                        <span>{username || "Loading..."}</span>
                       </div>
                       <MoreHorizontal size={20} />
                     </div>

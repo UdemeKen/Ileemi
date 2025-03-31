@@ -4,6 +4,7 @@ import DashboardCard from "./dashboard-card";
 import { FirstDashboardCardItems, SecondDashboardCardItems } from "@/types";
 import DashboardButton from "./dashboard-button";
 import Image from "next/image";
+import Link from "next/link";
 
 interface DasboardDesktopProps {
   FirstDashboardCardItem: FirstDashboardCardItems;
@@ -32,9 +33,9 @@ export default function DashboardDesktop(props: DasboardDesktopProps) {
       <div className="grid grid-cols-4 gap-4">
         {props.FirstDashboardCardItem.links.map((link, index) => (
           <DashboardCard key={index}>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center ">
               <div className="flex flex-col">
-                <p className="text-slate-400">{link.title}</p>
+                <p className="text-[#3a3c3f]">{link.title}</p>
                 <h2 className="font-bold text-lg">{link.amount}</h2>
               </div>
               <DashboardButton
@@ -48,14 +49,16 @@ export default function DashboardDesktop(props: DasboardDesktopProps) {
       <div className="flex flex-row gap-4 justify-center mb-[50px]">
         <div className="grid grid-cols-3 gap-4 h-full w-full">
           {props.SecondDashBoardCardItem.links.map((link, index) => (
+            <Link href={link.href}>
             <DashboardCard
               key={index}
-              className="h-[12rem] flex flex-col justify-center items-center cursor-pointer hover:scale-105 hover:shadow-lg transition-all duration-300">
+              className="h-[12rem] flex flex-col justify-center items-center hover:scale-105 hover:shadow-lg transition-all duration-300">
               <div className="flex flex-col justify-center items-center gap-4">
                 <Image src={link.image} alt={""} width={70} height={70} />
                 <p className="text-[17px] font-medium">{link.name}</p>
               </div>
             </DashboardCard>
+            </Link>
           ))}
         </div>
         <div className="w-2/4 h-[31.5rem]">

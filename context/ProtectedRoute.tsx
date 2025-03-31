@@ -15,8 +15,8 @@ const ProtectedRoute: React.FC<{
   useEffect(() => {
     const token = localStorage.getItem("TOKEN");
     if (authRequired && !token) {
-      router.push("/activation");
-      // router.push("/sign-in");
+      // router.push("/activation");
+      router.push("/sign-in");
     }
   }, [router, authRequired]);
 
@@ -26,8 +26,8 @@ const ProtectedRoute: React.FC<{
       router.push("/page/dashboard");
     }
     if (authRequired && !userToken) {
-      router.push("/activation");
-      // router.push("/sign-in");
+      // router.push("/activation");
+      router.push("/sign-in");
     }
   }, [userToken, router, authRequired]);
 
